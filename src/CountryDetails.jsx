@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./country2.css";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 
-import  useTheme  from "../../hooks/useTheme";
+import { useTheme } from "../../hooks/useTheme";
+
 import CountryDetailShimar from "./CountryDetailShimar";
 
 export default function CountryDetails() {
