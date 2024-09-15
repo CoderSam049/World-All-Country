@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./country2.css";
-import { Link, useLocation, useParams } from "react-router-dom";
-import CountryDetailShimar from "./CountryDetailShimar,";
-// import { Themecontext } from "./countryhelp";
-import { UseTheme } from "../../hooks/useTheme";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import CountryDetailShimar from "./CountryDetailShimar";
+import { useTheme } from "../../hooks/useTheme";
 
 export default function CountryDetails() {
   const [Countryfound, setCountryfound] = useState(false);
-
   const useparam = useParams();
-
   const countryName = useparam.country;
-
   const [countryData, setCountryData] = useState(null);
-
   const { state } = useLocation();
-
-  // const [isdark]= useContext(Themecontext);
-  const [isdark]=  UseTheme()
-  // console.log(isdark)
+  const [isdark] = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(state){
-
-    }
     fetch(`https://restcountries.com/v3.1/name/${countryName}/?fullText=true`)
       .then((res) => res.json())
       .then(([data]) => {
@@ -31,7 +21,6 @@ export default function CountryDetails() {
           names: data.name.common,
           flags: data.flags.svg,
           nativeName: Object.values(data.name.nativeName)[0].common,
-
           currencyName: Object.values(data.currencies)
             .map((currencies) => currencies.name)
             .join(""),
@@ -46,26 +35,21 @@ export default function CountryDetails() {
 
         if (data.borders) {
           Promise.all(
-            data.borders.map((border) => {
-              return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+            data.borders.map((border) =>
+              fetch(`https://restcountries.com/v3.1/alpha/${border}`)
                 .then((res) => res.json())
-                .then(([data]) => data.name.common);
-            })
+                .then(([data]) => data.name.common)
+            )
           ).then((borders) =>
             setCountryData((prevstate) => ({ ...prevstate, borders }))
           );
         }
-
-        // console.log(data);
       })
-
       .catch((e) => {
         console.log(e);
         setCountryfound(true);
       });
   }, [countryName]);
-
-  // console.log(countryData?.borders);
 
   if (Countryfound) {
     return <div>Country not Found</div>;
@@ -74,10 +58,9 @@ export default function CountryDetails() {
   return countryData === null ? (
     <CountryDetailShimar />
   ) : (
-    <>
-    <div className={`countryDetails ${isdark? 'mode' : ''}`}>
+    <div className={`countryDetails ${isdark ? "mode" : ""}`}>
       <div className="newcontainer">
-        <button onClick={() => history.back()} className="btn back">
+        <button onClick={() => navigate(-1)} className="btn back">
           <i className="fa-solid fa-arrow-left"></i> &nbsp;Back
         </button>
 
@@ -96,7 +79,7 @@ export default function CountryDetails() {
                 </p>
                 <p>
                   <b>populations:</b> &nbsp;&nbsp;
-                  <span>{countryData?.populations.toLocaleString("en-IN")}</span>
+                  <span>{countryData?.populations?.toLocaleString("en-IN")}</span>
                 </p>
                 <p>
                   <b>region:</b> &nbsp;&nbsp;<span>{countryData?.region}</span>
@@ -125,7 +108,7 @@ export default function CountryDetails() {
               </div>
             </div>
             <div className="bordercountry">
-              {countryData.borders.length!==0 ?  (
+              {countryData.borders.length !== 0 ? (
                 <>
                   <h3>Border countries:</h3>
                   {countryData.borders.map((border) => (
@@ -142,6 +125,5 @@ export default function CountryDetails() {
         </div>
       </div>
     </div>
-    </>
   );
 }
