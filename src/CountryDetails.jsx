@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./country2.css";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
-import CountryDetailShimar from "./CountryDetailShimar";
+
 import { useTheme } from "../../hooks/useTheme";
+import CountryDetailShimar from "./CountryDetailShimar";
 
 export default function CountryDetails() {
   const [Countryfound, setCountryfound] = useState(false);
@@ -56,7 +57,7 @@ export default function CountryDetails() {
   }
 
   return countryData === null ? (
-    <CountryDetailShimar />
+    <CountryDetailShimar/>
   ) : (
     <div className={`countryDetails ${isdark ? "mode" : ""}`}>
       <div className="newcontainer">
