@@ -1,0 +1,39 @@
+:root {
+    --shimarcolor: ' #4a4a4a84'
+}
+
+.shimarcard {
+    min-height: 170px;
+    max-width: 300px;
+    background-color: var(--shimarcolor);
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+
+
+}
+
+.shimarcarddetails h1 {
+    max-width: 300px;
+    background-color: var(--shimarcolor);
+    height: 25px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.shimarcarddetails p {
+    max-width: 300px;
+    margin: 8px;
+    height: 20px;
+    background-color: var(--shimarcolor);
+    border-radius: 10px;
+}
+
+.countryboxes {
+    margin-bottom: 1.2rem;
+}
+
+@media(max-width:800px) {
+    #countryboxes {
+        grid-template-columns: 1fr;
+    }
+}
